@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/debt
+    username: postgres
+    password: 12345678x@X
+    hikari:
+      minimum-idle: "10"
+      maximum-pool-size: "10"
+      connection-timeout: "3000"
+      driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db/liquibase-changelog.xml
+  jpa:
+    show-sql: "true"
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: "true"
+server:
+  port: 8090
