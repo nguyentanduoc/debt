@@ -38,7 +38,7 @@
 				<constraints nullable="false" />
 			</column>
 			<column name="note" type="varchar(255)">
-				<constraints nullable="false" />
+				<constraints nullable="true" />
 			</column>
 		</createTable>
 		<addForeignKeyConstraint

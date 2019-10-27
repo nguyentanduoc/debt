@@ -1,31 +1,17 @@
-package com.ntd.DebtManagement.Model;
+package com.ntd.DebtManagement.dto;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "history")
-public class History {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class HistoryDTO {
 	private Long id;
 
-	@Column(name = "created_date", nullable = false)
 	private Date createdDate;
 
-	@Column(name = "updated_date", nullable = false)
 	private Date updatedDate;
 
-	@Column(name = "price", nullable = false)
 	private Double price;
 	
-	@Column(name="id_debt", nullable = false)
 	private Long idDebt;
 
 	public Long getId() {
@@ -68,7 +54,11 @@ public class History {
 		this.idDebt = idDebt;
 	}
 
-	public History(Long id, Date createdDate, Date updatedDate, Double price, Long idDebt) {
+	public HistoryDTO() {
+		
+	}
+
+	public HistoryDTO(Long id, Date createdDate, Date updatedDate, Double price, Long idDebt) {
 		super();
 		this.id = id;
 		this.createdDate = createdDate;
@@ -76,7 +66,6 @@ public class History {
 		this.price = price;
 		this.idDebt = idDebt;
 	}
-
-	public History() {
-	}
+	
+	
 }

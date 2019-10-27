@@ -1,8 +1,8 @@
-package com.ntd.DebtManagement.Service;
+package com.ntd.DebtManagement.service;
 
 import java.util.List;
 
-import com.ntd.DebtManagement.DTO.HistoryDTO;
+import com.ntd.DebtManagement.dto.HistoryDTO;
 
 public interface HistoryService {
 	public List<HistoryDTO> findAllHistory();

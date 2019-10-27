@@ -1,6 +1,7 @@
-package com.ntd.DebtManagement.DTO;
+package com.ntd.DebtManagement.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class DebtDTO {
 	private Long id;
@@ -18,6 +19,8 @@ public class DebtDTO {
 	private Date deadline;
 	
 	private String note;
+	
+	private List<HistoryDTO> listHistory;
 
 	public Long getId() {
 		return id;
@@ -81,6 +84,14 @@ public class DebtDTO {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+	
+	public List<HistoryDTO> getListHistory() {
+		return listHistory;
+	}
+
+	public void setListHistory(List<HistoryDTO> listHistory) {
+		this.listHistory = listHistory;
 	}
 
 	public DebtDTO(Long id, Long idMember, Date createdDate, Date updatedDate, Double price, String status,

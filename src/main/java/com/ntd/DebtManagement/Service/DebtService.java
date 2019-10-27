@@ -1,9 +1,8 @@
-package com.ntd.DebtManagement.Service;
+package com.ntd.DebtManagement.service;
 
 import java.util.List;
 
-import com.ntd.DebtManagement.DTO.DebtDTO;
-import com.ntd.DebtManagement.Model.Debt;
+import com.ntd.DebtManagement.dto.DebtDTO;
 
 public interface DebtService {
 	public List<DebtDTO> findAllDebt();
@@ -12,5 +11,5 @@ public interface DebtService {
 	
 	public DebtDTO addNewDebt(DebtDTO debtDTO);
 	
-	public List<DebtDTO> isMissDealine();
+	public List<DebtDTO> isMissDeadline();
 }

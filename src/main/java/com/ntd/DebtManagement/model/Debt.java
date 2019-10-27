@@ -1,14 +1,19 @@
-package com.ntd.DebtManagement.Model;
+package com.ntd.DebtManagement.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -42,6 +47,9 @@ public class Debt {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_member", nullable = false, insertable = false, updatable = false)
 	private Member member;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "debtObject", cascade = CascadeType.ALL)
+	private List<History> listHistory = new ArrayList<History>();
 
 	public Long getId() {
 		return id;
@@ -105,6 +113,14 @@ public class Debt {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public List<History> getListHistory() {
+		return listHistory;
+	}
+
+	public void setListHistory(List<History> listHistory) {
+		this.listHistory = listHistory;
 	}
 
 	public Debt(Long id, Date createdDate, Date updatedDate, Double price, String status, Date deadline, String note) {

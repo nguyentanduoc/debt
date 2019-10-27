@@ -1,4 +1,4 @@
-package com.ntd.DebtManagement.Repository;
+package com.ntd.DebtManagement.repository;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ntd.DebtManagement.Model.Debt;
+import com.ntd.DebtManagement.model.Debt;
 @Repository
 public interface DebtRepository extends JpaRepository<Debt, Long> {
 	@Query("select d from Debt d where d.idMember=?1")

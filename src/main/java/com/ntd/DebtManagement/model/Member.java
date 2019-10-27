@@ -1,4 +1,4 @@
-package com.ntd.DebtManagement.Model;
+package com.ntd.DebtManagement.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class Member {
 	private Long memberOf;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL)
-	private List<Debt> listDebts = new ArrayList<Debt>();
+	private List<Debt> listDebt = new ArrayList<Debt>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "memberObject", cascade = CascadeType.ALL)
 	private List<Member> listMember = new ArrayList<Member>();
@@ -119,11 +119,11 @@ public class Member {
 	}
 
 	public List<Debt> getListDebts() {
-		return listDebts;
+		return listDebt;
 	}
 
 	public void setListDebts(List<Debt> listDebts) {
-		this.listDebts = listDebts;
+		this.listDebt = listDebts;
 	}
 
 	public List<Member> getListMember() {

@@ -1,8 +1,8 @@
-package com.ntd.DebtManagement.Service;
+package com.ntd.DebtManagement.service;
 
 import java.util.List;
 
-import com.ntd.DebtManagement.DTO.MemberDTO;
+import com.ntd.DebtManagement.dto.MemberDTO;
 
 public interface MemberService {
 	public List<MemberDTO> findAllMember();

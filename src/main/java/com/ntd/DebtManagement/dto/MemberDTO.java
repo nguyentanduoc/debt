@@ -1,4 +1,4 @@
-package com.ntd.DebtManagement.DTO;
+package com.ntd.DebtManagement.dto;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +21,8 @@ public class MemberDTO {
 	private Date updatedDate;
 	
 	private List<DebtDTO> listDebt;
+	
+	private List<MemberDTO> listMember;
 
 	public Long getId() {
 		return id;
@@ -92,6 +94,14 @@ public class MemberDTO {
 
 	public void setListDebt(List<DebtDTO> listDebt) {
 		this.listDebt = listDebt;
+	}
+	
+	public List<MemberDTO> getListMember() {
+		return listMember;
+	}
+
+	public void setListMember(List<MemberDTO> listMember) {
+		this.listMember = listMember;
 	}
 
 	public MemberDTO(Long id, String fullName, String email, String address, String phoneNumber, Date createdDate,
