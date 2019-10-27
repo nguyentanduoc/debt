@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet id="add_sequence" author="ntduoc">
-        <createSequence sequenceName="seq_debt" cycle="false" minValue="1" maxValue="9223372036854775807"
-                        startValue="100" incrementBy="1"/>
-    </changeSet>
-    <changeSet id="01" author="ntduoc">
-        <createTable tableName="member">
-            <column name="id" type="bigint" defaultValueComputed="nextval('seq_debt')">
-                <constraints nullable="false" unique="true" primaryKey="true"/>
-            </column>
-            <column name="member_of" type="int">
-                <constraints nullable="true"/>
-            </column>
-            <column name="fullname" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="email" type="varchar(255)">
-                <constraints nullable="true" unique="true"/>
-            </column>
-            <column name="address" type="varchar(255)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="phone_number" type="varchar(20)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="created_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="true"/>
-            </column>
-            <column name="updated_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
-                <constraints nullable="true"/>
-            </column>
-        </createTable>
-        <addForeignKeyConstraint
-            baseColumnNames="member_id" baseTableName="deft"
-            constraintName="fk_deft_member"
-            deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
-            onUpdate="RESTRICT"
-            referencedColumnNames="id" referencedTableName="member"/>
-    </changeSet>
-    <changeSet id="02" author="ntduoc">
-        <loadData catalogName="cat" encoding="UTF-8" file="db/csv/1569670889_add_table_member.csv" schemaName="public"
-                  tableName="member">
-            <column name="id" type="numeric"/>
-            <column name="member_of" type="numeric"/>
-            <column name="fullname" type="string"/>
-            <column name="address" type="string"/>
-            <column name="phone_number" type="string"/>
-        </loadData>
-    </changeSet>
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+	<changeSet id="add_sequence" author="ntduoc">
+		<createSequence sequenceName="seq_debt" cycle="false"
+			minValue="1" maxValue="9223372036854775807" startValue="100"
+			incrementBy="1" />
+	</changeSet>
+	<changeSet id="01" author="ntduoc">
+		<createTable tableName="debt">
+			<column name="id" type="bigint"
+				defaultValueComputed="nextval('seq_debt')">
+				<constraints nullable="false" unique="true"
+					primaryKey="true" />
+			</column>
+			<column name="id_member" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="created_date" type="DATETIME"
+				defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="true" />
+			</column>
+			<column name="updated_date" type="DATETIME"
+				defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="true" />
+			</column>
+			<column name="price" type="number">
+				<constraints nullable="false" />
+			</column>
+			<column name="status" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="deadline" type="DATETIME"
+				defaultValueComputed="CURRENT_TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+			<column name="note" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint
+			baseColumnNames="id_member" baseTableName="debt"
+			constraintName="fk_id_member" deferrable="true"
+			initiallyDeferred="true" onDelete="CASCADE" onUpdate="RESTRICT"
+			referencedColumnNames="id" referencedTableName="member" />
+	</changeSet>
+	<changeSet id="02" author="ntduoc">
+		<loadData catalogName="cat" encoding="UTF-8"
+			file="db/csv/1569950583_add_table_debt.csv" schemaName="public"
+			tableName="debt">
+			<column name="id" type="numeric" />
+			<column name="id_member" type="numeric" />
+			<column name="created_date" type="DATETIME" />
+			<column name="updated_date" type="DATETIME" />
+			<column name="price" type="numeric" />
+			<column name="status" type="string" />
+			<column name="deadline" type="DATETIME" />
+			<column name="note" type="string" />
+		</loadData>
+	</changeSet>
 </databaseChangeLog>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="add_sequence" author="ntduoc">
+        <createSequence sequenceName="seq_history" cycle="false" minValue="1" maxValue="9223372036854775807"
+                        startValue="100" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="01" author="ntduoc">
+        <createTable tableName="history">
+            <column name="id" type="bigint" defaultValueComputed="nextval('seq_member')">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="id_debt" type="bigint">
+				<constraints nullable="false" />
+			</column>
+            <column name="created_date" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_date" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="price" type="number">
+                <constraints nullable="false"/>
+            </column>            
+        </createTable>
+        <addForeignKeyConstraint
+                baseColumnNames="id_debt" baseTableName="history"
+                constraintName="fk_debt_history"
+                deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedColumnNames="id" referencedTableName="debt"/>
+    </changeSet>
+    <changeSet id="02" author="ntduoc">
+        <loadData catalogName="cat" encoding="UTF-8" file="db/csv/1571935010_add_table_history.csv" schemaName="public"
+                  tableName="history">
+            <column name="id" type="numeric"/>
+            <column name="id_debt" type="numeric"/>
+            <column name="created_date" type="DATETIME"/>
+            <column name="updated_date" type="DATETIME"/>
+            <column name="price" type="numeric"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>
