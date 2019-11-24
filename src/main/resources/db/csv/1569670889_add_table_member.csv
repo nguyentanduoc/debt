@@ -1,3 +1,3 @@
-id,member_of,fullname,address,phone_number
-1,,Nguyễn Văn A, nva@gmail.com,+8499999932
-2,1,Nguyễn Văn B, nvb@gmail.com,+8499999122
+id,member_of,fullname,address,phone_number, is_agency
+1,,Nguyễn Văn A, ,+8499999932, true
+2,1,Nguyễn Văn B, ,+8499999122, false

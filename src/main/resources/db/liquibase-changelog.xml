@@ -7,4 +7,6 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="changelog/1569670889_add_table_member.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1569950583_add_table_debt.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1571935010_add_table_history.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
