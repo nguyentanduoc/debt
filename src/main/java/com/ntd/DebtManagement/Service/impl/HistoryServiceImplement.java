@@ -79,40 +79,42 @@ public class HistoryServiceImplement implements HistoryService {
 			history.setIdDebt(debt.getId());
 			history.setCreatedDate(new Timestamp(date.getTime()));
 			history.setUpdatedDate(new Timestamp(date.getTime()));
-			if(debt.getPrice()!=0) {
+			if (debt.getPrice() != 0) {
 				if (cashBackMoney == debt.getPrice()) {
 					history.setPrice(debt.getPrice());
-					debt.setPrice((double) 0);
 					debt.setStatus("PAYOFF_DEBT");
 					debt.setUpdatedDate(new Timestamp(date.getTime()));
 					debtRepo.saveAndFlush(debt);
 					res.add(historyRepo.saveAndFlush(history));
-					cashBackMoney = (double) 0;
+					cashBackMoney = 0d;
 					break;
 				} else if (cashBackMoney < debt.getPrice()) {
 					history.setPrice(cashBackMoney);
-					debt.setPrice(debt.getPrice()- cashBackMoney);
 					debt.setStatus("PAYING_DEBT");
 					debt.setUpdatedDate(new Timestamp(date.getTime()));
 					debtRepo.saveAndFlush(debt);
 					res.add(historyRepo.saveAndFlush(history));
-					cashBackMoney = (double) 0;
+					cashBackMoney = 0d;
 					break;
 				} else {
 					history.setPrice(debt.getPrice());
 					cashBackMoney -= debt.getPrice();
-					debt.setPrice((double) 0);
 					debt.setStatus("PAYOFF_DEBT");
 					debt.setUpdatedDate(new Timestamp(date.getTime()));
 					res.add(historyRepo.saveAndFlush(history));
-					debtRepo.saveAndFlush(debt);	
+					debtRepo.saveAndFlush(debt);
 				}
 			}
 		}
 		List<HistoryDTO> listHistoryDTOResult = convertListHistoryToDTO(res);
 		return listHistoryDTOResult;
 	}
-	
+
+	@Override
+	public void deleteHistory(Long idHistory) {
+		historyRepo.deleteById(idHistory);
+	}
+
 	public List<HistoryDTO> convertListHistoryToDTO(List<History> listHistoryEntity) {
 		List<HistoryDTO> listDebtResultDTO = new ArrayList<HistoryDTO>();
 		for (History entity : listHistoryEntity) {
@@ -125,18 +127,18 @@ public class HistoryServiceImplement implements HistoryService {
 	public List<History> convertListHistoryToEntity(List<HistoryDTO> listHistoryDTO) {
 		List<History> listHistoryResult = new ArrayList<History>();
 		for (HistoryDTO dto : listHistoryDTO) {
-			History entity = convertHistoryToEntity(dto);			
+			History entity = convertHistoryToEntity(dto);
 			listHistoryResult.add(entity);
 		}
 		return listHistoryResult;
 	}
-	
+
 	public HistoryDTO convertHistoryToDTO(History history) {
 		HistoryDTO res = new HistoryDTO();
 		BeanUtils.copyProperties(history, res);
 		return res;
 	}
-	
+
 	public History convertHistoryToEntity(HistoryDTO historyDTO) {
 		History res = new History();
 		BeanUtils.copyProperties(historyDTO, res);

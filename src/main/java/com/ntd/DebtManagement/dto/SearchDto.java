@@ -5,18 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class HistoryDTO {
-	private Long id;
+public class SearchDto {
 
-	private Date createdDate;
+	private Long memberId;
 
-	private Date updatedDate;
-
-	private Double price;
-
-	private Long idDebt;
+	private List<Date> rangeDate;
 }

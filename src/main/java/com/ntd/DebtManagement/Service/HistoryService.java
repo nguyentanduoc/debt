@@ -5,11 +5,13 @@ import java.util.List;
 import com.ntd.DebtManagement.dto.HistoryDTO;
 
 public interface HistoryService {
-	public List<HistoryDTO> findAllHistory();
+	List<HistoryDTO> findAllHistory();
 	
-	public HistoryDTO addNewHistory(HistoryDTO dto);
+	HistoryDTO addNewHistory(HistoryDTO dto);
 	
-	public List<HistoryDTO> addListHistory(List<HistoryDTO> dto);
+	List<HistoryDTO> addListHistory(List<HistoryDTO> dto);
 	
-	public List<HistoryDTO> cashBack(Long idMember, Double price);
+	List<HistoryDTO> cashBack(Long idMember, Double price);
+
+	void deleteHistory(Long idHistory);
 }

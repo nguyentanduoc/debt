@@ -5,9 +5,15 @@ import java.util.List;
 import com.ntd.DebtManagement.dto.MemberDTO;
 
 public interface MemberService {
-	public List<MemberDTO> findAllMember();
+	List<MemberDTO> findAllMember();
 	
-	public MemberDTO findById(Long id);
+	MemberDTO findById(Long id);
 		
-	public MemberDTO addNewMember(MemberDTO dto);
+	MemberDTO addNewMember(MemberDTO dto);
+
+	List<MemberDTO> getAgency();
+
+	List<MemberDTO> getMemberOf(Long idMember);
+
+	void deleteMember(Long idMember);
 }

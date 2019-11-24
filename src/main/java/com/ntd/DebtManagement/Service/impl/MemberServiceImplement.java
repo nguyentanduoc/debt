@@ -14,66 +14,89 @@ import com.ntd.DebtManagement.repository.MemberRepository;
 import com.ntd.DebtManagement.service.MemberService;
 
 @Service
-public class MemberServiceImplement implements MemberService{
+public class MemberServiceImplement implements MemberService {
 
 	@Autowired
 	private MemberRepository memberRepo;
-	
+
 	@Override
 	public List<MemberDTO> findAllMember() {
 		List<Member> lsMemberEntity = memberRepo.findAll();
-		List<MemberDTO> lsMemberResultDTO = convertListMemberToDTO(lsMemberEntity);
-		return lsMemberResultDTO;
+		return convertListMemberToDTO(lsMemberEntity);
 	}
 
 	@Override
 	public MemberDTO addNewMember(MemberDTO dto) {
 		Date date = new Date();
-		if(dto.getCreatedDate()==null) {
+		if (dto.getCreatedDate() == null) {
 			dto.setCreatedDate(new Timestamp(date.getTime()));
 		}
-		if(dto.getUpdatedDate()==null) {
+		if (dto.getUpdatedDate() == null) {
 			dto.setUpdatedDate(new Timestamp(date.getTime()));
+		}
+		if(dto.getAgency() == null) {
+			dto.setAgency(false);
 		}
 		Member entityConverted = convertMemberToEntity(dto);
 		Member entity = memberRepo.saveAndFlush(entityConverted);
-		MemberDTO resultMemberDTO = convertMemberToDTO(entity);
-		return resultMemberDTO;
+		return convertMemberToDTO(entity);
 	}
 
 	@Override
-	public MemberDTO findById(Long id) {	
-		Member memberEntity = memberRepo.findById(id).get();
-		MemberDTO memberResultDTO = convertMemberToDTO(memberEntity);
-		return memberResultDTO;
+	public List<MemberDTO> getAgency() {
+		List<Member> members = memberRepo.getMemberByAgencyIsTrue();
+		if (members.size() > 0) {
+			return convertListMemberToDTO(members);
+		}
+		return null;
 	}
-	
+
+	@Override
+	public MemberDTO findById(Long id) {
+		Member memberEntity = memberRepo.findById(id).get();
+		return convertMemberToDTO(memberEntity);
+	}
+
+	@Override
+	public List<MemberDTO> getMemberOf(Long idMember) {
+		List<Member> members = memberRepo.getMemberByMemberOf(idMember);
+		if (members.size() > 0) {
+			return convertListMemberToDTO(members);
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteMember(Long idMember){
+		memberRepo.deleteById(idMember);
+	}
+
 	public MemberDTO convertMemberToDTO(Member member) {
 		MemberDTO res = new MemberDTO();
 		BeanUtils.copyProperties(member, res);
 		return res;
 	}
-	
+
 	public Member convertMemberToEntity(MemberDTO memberDTO) {
 		Member res = new Member();
 		BeanUtils.copyProperties(memberDTO, res);
 		return res;
 	}
-	
-	
+
+
 	public List<MemberDTO> convertListMemberToDTO(List<Member> lsMember) {
 		List<MemberDTO> res = new ArrayList<MemberDTO>();
-		for(Member entity: lsMember) {
+		for (Member entity : lsMember) {
 			MemberDTO dto = convertMemberToDTO(entity);
 			res.add(dto);
 		}
 		return res;
 	}
-	
-	
+
+
 	public List<Member> convertListMemberToEntity(List<MemberDTO> lsMemberDTO) {
 		List<Member> res = new ArrayList<Member>();
-		for(MemberDTO dto: lsMemberDTO) {
+		for (MemberDTO dto : lsMemberDTO) {
 			Member entity = convertMemberToEntity(dto);
 			res.add(entity);
 		}
