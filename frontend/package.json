@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "antd": "^3.23.4",
-<<<<<<< HEAD
     "axios": "^0.19.0",
     "moment": "^2.24.0",
     "react": "^16.10.0",
@@ -14,14 +13,6 @@
     "react-router-dom": "^5.1.1",
     "react-scripts": "3.1.2",
     "react-to-print": "^2.5.0",
-=======
-    "moment": "^2.24.0",
-    "react": "^16.10.0",
-    "react-dom": "^16.10.0",
-    "react-redux": "^7.1.1",
-    "react-router-dom": "^5.1.1",
-    "react-scripts": "3.1.2",
->>>>>>> master
     "redux": "^4.0.4"
   },
   "scripts": {

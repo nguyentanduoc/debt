@@ -1,5 +1,4 @@
 import AxoisInstance from './AxiosInstance';
-import {async} from "q";
 
 export async function createUser(data) {
   try {
