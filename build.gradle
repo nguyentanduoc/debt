@@ -21,4 +21,6 @@ dependencies {
 	implementation 'org.liquibase:liquibase-core'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.2'
+	
 }
