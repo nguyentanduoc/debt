@@ -82,7 +82,7 @@ class Statistical extends Component {
                       option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }>
                     {
-                      this.state.agencies.map(member => (
+                      this.state.agencies && this.state.agencies.length > 0 && this.state.agencies.map(member => (
                         <Option key={member.id} value={member.id}>{member.fullName}</Option>
                       ))
                     }
@@ -101,7 +101,7 @@ class Statistical extends Component {
           </Col>
           <Col span={1}>
             <ReactToPrint
-              trigger={() => <Button icon="printer"></Button>}
+              trigger={() => <Button icon="printer"/>}
               content={() => this.componentRef}
             />
           </Col>

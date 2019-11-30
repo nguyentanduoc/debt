@@ -42,7 +42,7 @@ class FormPay extends Component {
                 placeholder="Chọn thành viên"
                 optionFilterProp="children"
                 onSearch={this.onSearch}>
-                {this.props.members && this.props.members.map(member => (
+                {this.props.members && this.props.members.length > 0 && this.props.members.map(member => (
                   <Option key={member.id} value={member.id}>{member.fullName}</Option>
                 ))
                 }

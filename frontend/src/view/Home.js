@@ -131,7 +131,7 @@ class Home extends Component {
                         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                       }>
                       {
-                        this.state.agencies.map(member => (
+                        this.state.agencies && this.state.agencies.length > 0 && this.state.agencies.map(member => (
                           <Option key={member.id} value={member.id}>{member.fullName}</Option>
                         ))
                       }
@@ -146,7 +146,7 @@ class Home extends Component {
                       placeholder="Chọn thành viên"
                     >
                       {
-                        this.state.members && this.state.members.map(member => (
+                        this.state.members && this.state.members.length > 0 && this.state.members.map(member => (
                           <Option key={member.id} value={member.id}>{member.fullName}</Option>
                         ))
                       }
@@ -189,7 +189,7 @@ class Home extends Component {
                 <Column title="Ghi Chú" dataIndex="note" key="note" />
                 <Column title="Tuỳ chọn" dataIndex="action" key="action"
                   render={(text, record) => (
-                    this.state.debts.length >= 1 ? (
+                    this.state.debts.length > 0 ? (
                       <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDeleteDebt(record.id)}>
                         <Icon type="delete" />
                       </Popconfirm>
@@ -209,7 +209,7 @@ class Home extends Component {
                     <NumberFormat displayType={'text'} thousandSeparator={true} value={price} />)} />/>
                 <Column title="Tuỳ chọn" dataIndex="action" key="action"
                   render={(text, record) => (
-                    this.state.historiesTotal.length >= 1 ? (
+                    this.state.historiesTotal.length > 0 ? (
                       <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDeleteHistory(record.id)}>
                         <Icon type="delete" />
                       </Popconfirm>

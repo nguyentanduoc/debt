@@ -14,8 +14,8 @@
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
             <column name="id_debt" type="bigint">
-				<constraints nullable="false" />
-			</column>
+                <constraints nullable="false"/>
+            </column>
             <column name="created_date" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
@@ -24,7 +24,7 @@
             </column>
             <column name="price" type="number">
                 <constraints nullable="false"/>
-            </column>            
+            </column>
         </createTable>
         <addForeignKeyConstraint
                 baseColumnNames="id_debt" baseTableName="history"

@@ -45,10 +45,9 @@ class FormCreate extends Component {
                 filterOption={(input, option) =>
                   option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }>
-                {this.props.members && this.props.members.map(member => (
+                {this.props.members && this.props.members.length > 0 && this.props.members.map(member => (
                   <Option key={member.id} value={member.id}>{member.fullName}</Option>
-                ))
-                }
+                ))}
               </Select>
             )}
           </Form.Item>

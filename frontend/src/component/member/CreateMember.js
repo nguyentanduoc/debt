@@ -56,7 +56,7 @@ class CreateMember extends Component {
                   showSearch
                   placeholder="Thuộc Thành viên"
                 >
-                  {this.state.agencies.map(member => (
+                  {this.state.agencies && this.state.agencies.length > 0 && this.state.agencies.map(member => (
                     <Select.Option key={member.id} value={member.id}>{member.fullName}</Select.Option>
                   ))
                   }

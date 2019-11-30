@@ -26,18 +26,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addMapping("/**").allowedOrigins("*")
 				.allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE").maxAge(MAX_AGE_SECS);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#
 	 * addResourceHandlers(org.springframework.web.servlet.config.annotation.
 	 * ResourceHandlerRegistry)
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/img/**", "/css/**", "/js/**")//
-				.addResourceLocations("classpath:/static/img/", "classpath:/static/css/", "classpath:/static/js/");
+		registry.addResourceHandler("/static/img/**", "/static/css/**", "/static/js/**")//
+				.addResourceLocations("classpath:/templates/static/img/",
+						"classpath:/templates/static/css/",
+						"classpath:/templates/static/js/");
 	}
 
 	@Bean
@@ -46,7 +48,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	}
 
 	@Bean
-	public RestTemplate restTemplate(){
+	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 }

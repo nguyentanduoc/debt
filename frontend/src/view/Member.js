@@ -123,7 +123,7 @@ class Member extends Component {
                       placeholder="Thuộc Thành viên"
                     >
                       <Select.Option key={0} value={null}>Null</Select.Option>
-                      {this.state.agencies && this.state.agencies.map(member => (
+                      {this.state.agencies && this.state.agencies.length > 0 && this.state.agencies.map(member => (
                         <Select.Option key={member.id} value={member.id}>{member.fullName}</Select.Option>
                       ))}
                     </Select>

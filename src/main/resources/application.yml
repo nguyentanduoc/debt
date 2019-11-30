@@ -12,7 +12,8 @@ spring:
   liquibase:
     change-log: classpath:/db/liquibase-changelog.xml
   jpa:
-    show-sql: "true"
+    show-sql: "false"
+    open-in-view: false
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
@@ -23,3 +24,6 @@ spring:
             non_contextual_creation: "true"
 server:
   port: 8090
+logging:
+  level:
+    root: INFO
