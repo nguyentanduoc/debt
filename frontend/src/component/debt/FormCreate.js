@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Form, Input, InputNumber, Modal, Select} from "antd";
+import {Form, Input, InputNumber, Modal, Select, Spin} from "antd";
 import {createDebt} from '../../service/MemberService';
 
 const Option = Select.Option;
 
 class FormCreate extends Component {
+  state = {
+    loading: false,
+  };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        createDebt(values)
-          .then(response => {
-            if (response.data) {
-              this.props.onClose()
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
+        await this.setState({loading: true});
+        await createDebt(values);
+        this.props.form.resetFields();
+        await this.setState({loading: false});
+        this.props.onClose();
       }
     })
   };
@@ -32,6 +31,7 @@ class FormCreate extends Component {
           visible={this.props.showModel}
           onOk={this.handleSubmit}
           onCancel={this.props.onClose}>
+          <Spin spinning={this.state.loading}>
           <Form.Item>
             {getFieldDecorator('idMember', {
               rules: [{required: true, message: 'Chọn Thành viên'}],
@@ -67,6 +67,7 @@ class FormCreate extends Component {
               <Input placeholder="Ghi chú"/>
             )}
           </Form.Item>
+          </Spin>
         </Modal>
       </Form>
     );

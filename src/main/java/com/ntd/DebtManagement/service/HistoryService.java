@@ -11,7 +11,7 @@ public interface HistoryService {
 	
 	List<HistoryDTO> addListHistory(List<HistoryDTO> dto);
 	
-	List<HistoryDTO> cashBack(Long idMember, Double price);
+	void cashBack(Long idMember, Double price);
 
 	void deleteHistory(Long idHistory);
 }

@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "debt")
@@ -43,7 +41,4 @@ public class Debt {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "id_member", nullable = false, insertable = false, updatable = false)
 	private Member member;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<History> listHistory = new ArrayList<>();
 }

@@ -1,0 +1,1 @@
+start javaw -Xmx200m -jar C:\debt\DebtManagement-0.0.1-SNAPSHOT.war

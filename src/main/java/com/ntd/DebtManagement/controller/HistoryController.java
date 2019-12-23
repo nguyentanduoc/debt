@@ -28,7 +28,8 @@ public class HistoryController {
 
 	@GetMapping("/history/cash-back/{idMember}/{price}")
 	public ResponseEntity<List<HistoryDTO>> cashBackHistory(@PathVariable Long idMember, @PathVariable Double price) {
-		return ResponseEntity.ok().body(historyService.cashBack(idMember, price));
+		historyService.cashBack(idMember, price);
+		return ResponseEntity.ok().body(null);
 	}
 
 	@DeleteMapping("/history/{idHistory}")

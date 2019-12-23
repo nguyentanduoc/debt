@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Form, InputNumber, Modal, Select} from "antd";
+import {Form, InputNumber, Modal, Select, Spin} from "antd";
 import {cashBack} from '../../service/MemberService';
 
 const Option = Select.Option;
 
 class FormPay extends Component {
+  state = {
+    loading: false
+  }
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        cashBack(values.idMember, values.price)
-          .then(response => {
-            if (response.data) {
-              this.props.onClose()
-            }
-          })
-          .catch(error => {
-            console.log(error)
-          })
+        await this.setState({loading: true});
+        await cashBack(values.idMember, values.price);
+        await this.setState({loading: false});
+        this.props.form.resetFields();
+        this.props.onClose()
       }
     })
   };
@@ -32,6 +31,7 @@ class FormPay extends Component {
           visible={this.props.showModel}
           onOk={this.handleSubmit}
           onCancel={this.props.onClose}>
+          <Spin spinning={this.state.loading}>
           <Form.Item>
             {getFieldDecorator('idMember', {
               rules: [{required: true, message: 'Chọn Thành viên'}],
@@ -60,6 +60,7 @@ class FormPay extends Component {
                 parser={value => value.replace(/\$\s?|(,*)/g, '')}/>
             )}
           </Form.Item>
+          </Spin>
         </Modal>
       </Form>
     );

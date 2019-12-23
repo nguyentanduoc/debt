@@ -13,7 +13,7 @@
             <column name="id" type="bigint" defaultValueComputed="nextval('seq_member')">
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
-            <column name="id_debt" type="bigint">
+            <column name="id_member" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="created_date" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -27,10 +27,10 @@
             </column>
         </createTable>
         <addForeignKeyConstraint
-                baseColumnNames="id_debt" baseTableName="history"
-                constraintName="fk_debt_history"
+                baseColumnNames="id_member" baseTableName="history"
+                constraintName="fk_debt_member"
                 deferrable="true" initiallyDeferred="true" onDelete="CASCADE"
                 onUpdate="RESTRICT"
-                referencedColumnNames="id" referencedTableName="debt"/>
+                referencedColumnNames="id" referencedTableName="member"/>
     </changeSet>
 </databaseChangeLog>

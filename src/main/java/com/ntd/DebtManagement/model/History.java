@@ -21,23 +21,23 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Data
 public class History {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column(name = "created_date", nullable = false)
-	private Date createdDate;
+    @Column(name = "created_date", nullable = false)
+    private Date createdDate;
 
-	@Column(name = "updated_date", nullable = false)
-	private Date updatedDate;
+    @Column(name = "updated_date", nullable = false)
+    private Date updatedDate;
 
-	@Column(name = "price", nullable = false)
-	private Double price;
-	
-	@Column(name="id_debt", nullable = false)
-	private Long idDebt;
-	
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "id_debt", insertable = false, updatable = false)
-	private Debt debtObject;
+    @Column(name = "price", nullable = false)
+    private Double price;
+
+    @Column(name = "id_member", nullable = false)
+    private Long idMember;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_member", nullable = false, insertable = false, updatable = false)
+    private Member member;
 }

@@ -5,13 +5,14 @@ import {Link, Route} from 'react-router-dom';
 import Home from "./view/Home";
 import Member from "./view/Member";
 import Statistical from "./view/Statistical";
+import {withRouter} from 'react-router-dom';
 
 const {Header, Content} = Layout;
 
 class App extends React.Component {
   state = {
     collapsed: false,
-    current: 'home',
+    current: 'statistical',
   };
 
   toggle = () => {
@@ -19,14 +20,23 @@ class App extends React.Component {
       collapsed: !this.state.collapsed,
     });
   };
+
   loading = () => {
     return (<Spin/>);
   };
+
   handleClick = (e) => {
     this.setState({
       current: e.key,
     });
   };
+
+  UNSAFE_componentWillMount() {
+    const pathName = this.props.location.pathname.replace("/", "");
+    this.setState({
+      current: pathName ? pathName : 'home'
+    })
+  }
 
   render() {
     return (
@@ -41,12 +51,12 @@ class App extends React.Component {
               </Menu.Item>
               <Menu.Item key="statistical">
                 <Link to="/statistical">
-                  <span>Đại lý</span>
+                  <span>Nhân Viên</span>
                 </Link>
               </Menu.Item>
               <Menu.Item key="member">
                 <Link to="/member">
-                  <span>Thành viên</span>
+                  <span>Tài Khoản</span>
                 </Link>
               </Menu.Item>
             </Menu>
@@ -68,4 +78,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

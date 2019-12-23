@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, Card, Col, DatePicker, Divider, Form, Row, Select, Table } from "antd";
-import { getAgency, statisticalSearch } from "../service/MemberService";
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Button, Card, Col, DatePicker, Divider, Form, Row, Select, Table} from "antd";
+import {getAgency, statisticalSearch} from "../service/MemberService";
 import ReactToPrint from 'react-to-print';
+import NumberFormat from "react-number-format";
 
+const Column = Table.Column;
 const Option = Select.Option;
-const { RangePicker } = DatePicker;
+const {RangePicker} = DatePicker;
 const dateFormat = 'DD-MM-YYYY';
 
 class Statistical extends Component {
@@ -25,12 +27,14 @@ class Statistical extends Component {
       {
         title: "Doanh thu",
         dataIndex: 'sumDebt',
-        key: 'sumDebt'
+        key: 'sumDebt',
+        render: text => <NumberFormat displayType={'text'} thousandSeparator={true} value={text}/>,
       },
       {
         title: "Tổng thu",
         dataIndex: 'sumHistory',
-        key: 'sumHistory'
+        key: 'sumHistory',
+        render: text => <NumberFormat displayType={'text'} thousandSeparator={true} value={text}/>,
       }
     ]
   };
@@ -38,7 +42,7 @@ class Statistical extends Component {
   UNSAFE_componentWillMount() {
     getAgency()
       .then(response => {
-        this.setState({ agencies: response.data })
+        this.setState({agencies: response.data})
       })
       .catch(error => {
 
@@ -64,17 +68,17 @@ class Statistical extends Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     return (
       <div>
-        <Row style={{ margin: 10 }}>
+        <Row style={{margin: 10}}>
           <Col span={23}>
             <Form layout="inline" onSubmit={this.handleSubmit}>
               <Form.Item>
                 {getFieldDecorator('agencyId', {})(
                   <Select
                     showSearch
-                    style={{ width: 200 }}
+                    style={{width: 200}}
                     placeholder="Chọn đại lý"
                     optionFilterProp="children"
                     onChange={this.onChangeAgency}
@@ -91,11 +95,11 @@ class Statistical extends Component {
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('rangeDate', {})(
-                  <RangePicker format={dateFormat} />
+                  <RangePicker format={dateFormat}/>
                 )}
               </Form.Item>
               <Form.Item>
-                <Button type='primary' icon='search' htmlType='submit' />
+                <Button type='primary' icon='search' htmlType='submit'/>
               </Form.Item>
             </Form>
           </Col>
@@ -106,31 +110,38 @@ class Statistical extends Component {
             />
           </Col>
         </Row>
-        <Divider />
+        <Divider/>
         <div ref={el => (this.componentRef = el)}>
-          <Row gutter={16} style={{ margin: 10 }}>
-            <Col span={16} >
+          <Row gutter={16} style={{margin: 10}}>
+            <Col span={16}>
               <Table
                 bordered
                 dataSource={this.state.dataSource}
                 columns={this.state.columns}
                 rowKey={'id'}
-                pagination={false}/>
+                pagination={false}>
+              </Table>
             </Col>
             <Col span={8}>
               <Card>
                 <Row>
-                  <Col span={12} style={{ textAlign: 'right' }}>Tổng doanh số:</Col>
-                  <Col span={12} style={{ textAlign: 'right' }}>{this.state.totalDebt}</Col>
+                  <Col span={12} style={{textAlign: 'right'}}>Tổng doanh số:</Col>
+                  <Col span={12} style={{textAlign: 'right'}}>
+                    <NumberFormat displayType={'text'} thousandSeparator={true} value={this.state.totalDebt}/>
+                  </Col>
                 </Row>
                 <Row>
-                  <Col span={12} style={{ textAlign: 'right' }}>Tổng doanh thu:</Col>
-                  <Col span={12} style={{ textAlign: 'right' }}>{this.state.totalHistory}</Col>
+                  <Col span={12} style={{textAlign: 'right'}}>Tổng doanh thu:</Col>
+                  <Col span={12} style={{textAlign: 'right'}}>
+                    <NumberFormat displayType={'text'} thousandSeparator={true} value={this.state.totalHistory}/>
+                  </Col>
                 </Row>
-                <Divider />
+                <Divider/>
                 <Row>
-                  <Col span={12} style={{ textAlign: 'right' }}>Tổng công nợ:</Col>
-                  <Col span={12} style={{ textAlign: 'right' }}>{this.state.totalRest}</Col>
+                  <Col span={12} style={{textAlign: 'right'}}>Tổng công nợ:</Col>
+                  <Col span={12} style={{textAlign: 'right'}}>
+                    <NumberFormat displayType={'text'} thousandSeparator={true} value={this.state.totalRest}/>
+                  </Col>
                 </Row>
               </Card>
             </Col>

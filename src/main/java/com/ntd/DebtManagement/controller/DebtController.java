@@ -55,11 +55,6 @@ public class DebtController {
 
 	@PostMapping("/statistical/search")
 	public ResponseEntity statisticalSearch(@RequestBody StatisticalSearchCondition condition) {
-		try {
-			return ResponseEntity.ok().body(debtService.statisticalSearch(condition));
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
+		return ResponseEntity.ok().body(debtService.statisticalSearch(condition));
 	}
 }

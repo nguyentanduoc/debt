@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Card, Col, Form, Icon, Input, Row, Select, Table, Checkbox, Tag, Popconfirm} from 'antd';
+import {Button, Card, Col, Form, Icon, Input, Row, Select, Table, Checkbox, Tag, Popconfirm, Spin} from 'antd';
 import moment from 'moment'
 import {createUser, getAgency, getAllMember, deleteMember} from "../service/MemberService";
 
@@ -9,6 +9,7 @@ class Member extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       agencies: [],
       columns: [
         {
@@ -22,12 +23,17 @@ class Member extends Component {
           key: 'address',
         },
         {
-          title: 'Là đại lý',
+          title: 'Số điện thoại',
+          dataIndex: 'phoneNumber',
+          key: 'phoneNumber',
+        },
+        {
+          title: 'Là nhân viên',
           dataIndex: 'agency',
           key: 'agency',
           render: text => (
             <Tag color={text ? 'geekblue' : 'green'} key={text}>
-              {text ? 'Đại lý' : 'Thành viên'}
+              {text ? 'Nhân Viên' : 'Đại lý'}
             </Tag>),
         },
         {
@@ -52,106 +58,115 @@ class Member extends Component {
     };
   }
 
-  handleDelete(idMember) {
-    deleteMember(idMember).then(() => {
-      this.loadMember()
-    })
+  async handleDelete(idMember) {
+    await this.setState({loading: true});
+    await deleteMember(idMember);
+    await this.loadMember();
+    await this.loadAgency();
+    await this.setState({loading: false});
+  }
+
+  async loadAgency() {
+    const agencies = await getAgency();
+    this.setState({agencies: agencies.data})
   }
 
   UNSAFE_componentWillMount() {
-    getAgency()
-      .then(response => {
-        this.setState({agencies: response.data})
-      })
-      .catch(error => {
-
-      });
+    this.loadAgency()
     this.loadMember()
   }
 
   createMember = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        createUser(values)
-          .then(() => {
-            this.loadMember()
-          })
+        await this.setState({loading: true});
+        try {
+          await createUser(values);
+          await this.loadMember();
+          await this.loadAgency();
+          this.props.form.resetFields();
+        } catch (e) {
+          console.log(e)
+        }
+        await this.setState({loading: false});
       }
     });
   };
 
-  loadMember = () => {
-    getAllMember()
-      .then((response) => {
-        this.setState({members: response.data})
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  loadMember = async () => {
+    try {
+      const members = await getAllMember();
+      this.setState({members: members.data});
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   render() {
     const {getFieldDecorator} = this.props.form;
     return (
       <div style={{margin: 10}}>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Card>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Item>
-                  {getFieldDecorator('fullName', {
-                    rules: [{required: true, message: 'Nhập tên Thành Viên'}],
-                  })(
-                    <Input
-                      prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-                      placeholder="Nhập tên Thành Viên"
-                    />
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('agency', {
-                    valuePropName: 'checked',
-                    initialValue: false,})(
-                    <Checkbox>Là đại lý</Checkbox>
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('memberOf')(
-                    <Select
-                      showSearch
-                      placeholder="Thuộc Thành viên"
-                    >
-                      <Select.Option key={0} value={null}>Null</Select.Option>
-                      {this.state.agencies && this.state.agencies.length > 0 && this.state.agencies.map(member => (
-                        <Select.Option key={member.id} value={member.id}>{member.fullName}</Select.Option>
-                      ))}
-                    </Select>
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('address')(
-                    <Input
-                      type="address"
-                      placeholder="Địa chỉ"
-                    />
-                  )}
-                </Form.Item>
-                <Form.Item>
-                  {getFieldDecorator('phone')(<Input placeholder="Số điện thoại"/>)}
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" onClick={this.createMember}>
-                    Tạo
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Card>
-          </Col>
-          <Col span={16}>
-            <Table columns={this.state.columns} dataSource={this.state.members} rowKey={'id'} bordered={true}/>
-          </Col>
-        </Row>
+        <Spin spinning={this.state.loading}>
+          <Row gutter={16}>
+            <Col span={6}>
+              <Card>
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Item>
+                    {getFieldDecorator('fullName', {
+                      rules: [{required: true, message: 'Nhập tên Thành Viên'}],
+                    })(
+                      <Input
+                        prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                        placeholder="Nhập tên Thành Viên"
+                      />
+                    )}
+                  </Form.Item>
+                  <Form.Item>
+                    {getFieldDecorator('agency', {
+                      valuePropName: 'checked',
+                      initialValue: false,
+                    })(
+                      <Checkbox>Là nhân viên</Checkbox>
+                    )}
+                  </Form.Item>
+                  <Form.Item>
+                    {getFieldDecorator('memberOf')(
+                      <Select
+                        showSearch
+                        placeholder="Thuộc Thành viên"
+                      >
+                        <Select.Option key={0} value={null}>Null</Select.Option>
+                        {this.state.agencies && this.state.agencies.length > 0 && this.state.agencies.map(member => (
+                          <Select.Option key={member.id} value={member.id}>{member.fullName}</Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item>
+                    {getFieldDecorator('address')(
+                      <Input
+                        type="address"
+                        placeholder="Địa chỉ"
+                      />
+                    )}
+                  </Form.Item>
+                  <Form.Item>
+                    {getFieldDecorator('phoneNumber')(<Input placeholder="Số điện thoại"/>)}
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" onClick={this.createMember}>
+                      Tạo
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </Col>
+            <Col span={18}>
+              <Table columns={this.state.columns} dataSource={this.state.members} rowKey={'id'} bordered={true}/>
+            </Col>
+          </Row>
+        </Spin>
       </div>
     );
   }

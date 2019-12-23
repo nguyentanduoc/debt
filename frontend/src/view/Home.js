@@ -25,7 +25,7 @@ class Home extends Component {
     rest: 0,
     totalDebt: 0,
     totalHistory: 0,
-    historiesTotal: [],
+    histories: [],
     modalPay: false,
     condition: null,
     flgPrint: false
@@ -60,7 +60,7 @@ class Home extends Component {
           totalHistory: response.data.totalHistory,
           totalDebt: response.data.totalDebt,
           rest: response.data.rest,
-          historiesTotal: response.data.historiesTotal
+          histories: response.data.histories
         });
       }).catch(error => {
         console.log(error)
@@ -71,26 +71,26 @@ class Home extends Component {
     this.setState({ showModel: true })
   };
   onCloseModal = () => {
-    this.setState({ showModel: false })
+    this.setState({ showModel: false });
+    this.loadDebt();
   };
   showModalPay = () => {
     this.setState({ modalPay: true })
   };
   onCloseModalPay = () => {
-    this.setState({ modalPay: false })
+    this.setState({ modalPay: false });
+    this.loadDebt();
   };
   handleDeleteHistory = (id) => {
     deleteHistory(id)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
         this.loadDebt();
       })
       .catch((error) => console.log(error));
   };
 
   handleDeleteDebt = (id) => {
-    deleteDebt(id).then((response) => {
-      console.log(response);
+    deleteDebt(id).then(() => {
       this.loadDebt()
     })
   };
@@ -101,15 +101,6 @@ class Home extends Component {
         this.setState({ members: response.data })
       })
   };
-
-  beforPrint = () => {
-    console.log("aaa")
-    this.setState({ flgPrint: true })
-  }
-
-  afterPrint = () => {
-    this.setState({ flgPrint: false })
-  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -124,7 +115,7 @@ class Home extends Component {
                     <Select
                       showSearch
                       style={{ width: 200 }}
-                      placeholder="Chọn đại lý"
+                      placeholder="Chọn Nhân Viên"
                       optionFilterProp="children"
                       onChange={this.onChangeAgency}
                       filterOption={(input, option) =>
@@ -143,7 +134,7 @@ class Home extends Component {
                     <Select
                       showSearch
                       style={{ width: 200 }}
-                      placeholder="Chọn thành viên"
+                      placeholder="Chọn Đại lý"
                     >
                       {
                         this.state.members && this.state.members.length > 0 && this.state.members.map(member => (
@@ -165,7 +156,7 @@ class Home extends Component {
             </Col>
             <Col span={1}>
               <ReactToPrint
-                trigger={() => <Button icon="printer"></Button>}
+                trigger={() => <Button icon="printer"/>}
                 content={() => this.componentRef}
               />
             </Col>
@@ -201,7 +192,7 @@ class Home extends Component {
               <Row>
                 <Col span={12}><h4>Thanh Toán</h4></Col>
               </Row>
-              <Table dataSource={this.state.historiesTotal} rowKey="id" bordered={true} pagination={false}>
+              <Table dataSource={this.state.histories} rowKey="id" bordered={true} pagination={false}>
                 <Column title="Ngày thanh toán" dataIndex="createdDate" key="createdDate"
                   render={date => (<span>{moment(date).format(dateFormat)}</span>)} />
                 <Column title="Số tiền" dataIndex="price" key="price"
@@ -209,7 +200,7 @@ class Home extends Component {
                     <NumberFormat displayType={'text'} thousandSeparator={true} value={price} />)} />/>
                 <Column title="Tuỳ chọn" dataIndex="action" key="action"
                   render={(text, record) => (
-                    this.state.historiesTotal.length > 0 ? (
+                    this.state.histories.length > 0 ? (
                       <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDeleteHistory(record.id)}>
                         <Icon type="delete" />
                       </Popconfirm>
@@ -286,7 +277,7 @@ class Home extends Component {
                 <Row>
                   <Col span={12}><h4>Thanh Toán</h4></Col>
                 </Row>
-                <Table dataSource={this.state.historiesTotal} rowKey="id" bordered={true} pagination={false}>
+                <Table dataSource={this.state.histories} rowKey="id" bordered={true} pagination={false}>
                   <Column title="Ngày thanh toán" dataIndex="createdDate" key="createdDate"
                     render={date => (<span>{moment(date).format(dateFormat)}</span>)} />
                   <Column title="Số tiền" dataIndex="price" key="price"

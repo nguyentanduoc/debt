@@ -21,5 +21,5 @@ public interface DebtService {
 
 	void deleteDebt(Long idDebt);
 
-	Map<String, Object> statisticalSearch(StatisticalSearchCondition condition) throws Exception;
+	Map<String, Object> statisticalSearch(StatisticalSearchCondition condition);
 }
